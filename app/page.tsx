@@ -1,9 +1,13 @@
 'use client';
 
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
+import { Search, Thermometer, Droplets, Wind } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
 import { getWheatherData } from "./action";
+import { WeatherData } from "@/types/wethear";
 
 const SubmitButton = () => {
   return (
@@ -14,12 +18,16 @@ const SubmitButton = () => {
 }
 
 export default function Home() {
+  const [weather, setWeather] = useState<WeatherData | null>(null);
   
   const handleSearch = async (formData: FormData) => {
     const city = formData.get('city') as string;
     const data = await getWheatherData(city);
     console.log(data);
     
+    if (data) {
+      setWeather(data)
+    }
   }
 
   return (
@@ -34,7 +42,45 @@ export default function Home() {
           required
           />   
           <SubmitButton />
-        </form>     
+        </form>    
+        {weather && (
+            <div>
+              <Card className="bg-white/50 backdrop-blur">
+                <CardContent className="p-6">
+                  <div className="text-center mb-4">
+                    <h2 className="text-2xl font-bold">{weather.name}</h2>
+                    <div className="flex items-center justify-center gap-2 mt-2">
+                      <img
+                      src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+                      alt={weather.weather[0].description}
+                      width={64}
+                      height={64}
+                      />
+                      <div className="text-4xl font-bold">{Math.round(weather.main.temp)}°</div>
+                    </div>
+                    <div className="text-gray-600 mt-1 capitalize">{weather.weather[0].description}</div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-4 mt-6">
+                    <div className="text-center">
+                      <Thermometer className="w-6 h-6 mx-auto text-red-500"/>
+                      <div className="mt-2 text-sm text-gray-600">Feels like</div>
+                      <div className="font-semibold">{Math.round(weather.main.feels_like)}°</div>
+                    </div>
+                    <div className="text-center">
+                      <Droplets className="w-6 h-6 mx-auto text-blue-500"/>
+                      <div className="mt-2 text-sm text-gray-600">Humidity</div>
+                      <div className="font-semibold">{Math.round(weather.main.humidity)}%</div>
+                    </div>
+                    <div className="text-center">
+                      <Wind className="w-6 h-6 mx-auto text-teal-500"/>
+                      <div className="mt-2 text-sm text-gray-600">Wind</div>
+                      <div className="font-semibold">{Math.round(weather.wind.speed)}m/s</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )} 
       </div>
     </div>
   );
