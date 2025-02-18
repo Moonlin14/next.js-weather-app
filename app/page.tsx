@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { getWheatherData } from "./action";
 import { WeatherData } from "@/types/wethear";
+import { error } from "console";
 
 const SubmitButton = () => {
   return (
@@ -19,21 +20,23 @@ const SubmitButton = () => {
 
 export default function Home() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [error, setError] = useState<string | undefined>('')
   
   const handleSearch = async (formData: FormData) => {
+    setError('')
     const city = formData.get('city') as string;
-    const data = await getWheatherData(city);
-    console.log(data);
-    
-    if (data) {
-      setWeather(data)
+    const { data, error: weatherError } = await getWheatherData(city);
+    if (weatherError) {
+      setError(weatherError);
+      setWeather(null);  
     }
+    if (data) setWeather(data);
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-blue-700 p-4 flex items-center justify-center">
       <div className="w-full max-w-md space-y-4">
-        <form action={handleSearch} className="flex gap-2">
+        <form noValidate action={handleSearch} className="flex gap-2">
           <Input 
           name="city"
           type="text"
@@ -42,7 +45,12 @@ export default function Home() {
           required
           />   
           <SubmitButton />
-        </form>    
+        </form>  
+
+        { error && (
+          <div className="text-center text-black-300 bg-red-500/30 rounded-md p-2">{error}</div>
+        )}
+
         {weather && (
             <div>
               <Card className="bg-white/50 backdrop-blur">
