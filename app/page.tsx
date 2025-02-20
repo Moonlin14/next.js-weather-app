@@ -47,7 +47,7 @@ export default function Home() {
           name="city"
           type="text"
           placeholder="Enter city name..."
-          className="bg-blue-400 border border-solid border-transparent focus:border-yellow-400 duration-500 ease-linear"
+          className="bg-blue-400"
           required
           />   
           <SubmitButton />
@@ -65,7 +65,7 @@ export default function Home() {
             <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.3}}
             >
               <Card className="bg-white/50 backdrop-blur">
