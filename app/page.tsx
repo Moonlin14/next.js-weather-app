@@ -39,7 +39,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-blue-700 p-4 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-b from-white to-blue-700 p-4 flex items-center justify-center transition-colors">
       <div className="w-full max-w-md space-y-4">
         <form noValidate action={handleSearch} className="flex gap-2">
           <Input
@@ -47,7 +47,7 @@ export default function Home() {
           name="city"
           type="text"
           placeholder="Enter city name..."
-          className="bg-blue-400"
+          className="bg-blue-400 border border-solid border-transparent focus:border-white duration-500 ease-linear shadow-slate-200"
           required
           />   
           <SubmitButton />
