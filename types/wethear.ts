@@ -1,5 +1,4 @@
 export interface WeatherData {
-  name: string,
   main: {
     temp: number,
     humidity: number,
@@ -12,5 +11,8 @@ export interface WeatherData {
   }>,
   wind: {
     speed: number,
-  }
+  },
+  city: {
+    name: string,
+  },
 }

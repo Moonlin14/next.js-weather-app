@@ -4,7 +4,9 @@ import { WeatherData } from "@/types/wethear";
 import { z } from "zod";
 
 const weatherSchema = z.object({
-  name: z.string(),
+  city: z.object({
+    name: z.string(),
+  }),
   main: z.object({
     temp: z.number(),
     humidity: z.number(),
@@ -22,18 +24,22 @@ const weatherSchema = z.object({
   }),
 })
 
-export const getWheatherData = async (city: string): Promise<{ data?: WeatherData, error?: string}> => {
+export const getWheatherData = async (city: string): Promise<{ data?: WeatherData[], error?: string}> => {
   try {
     if (!city.trim()) {
       return { error: "City name is required" };
     }
-    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.OPENWEATHERMAP_API_KEY}`);
+    const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&cnt=5&lang=ru&units=metric&appid=${process.env.OPENWEATHERMAP_API_KEY}`);
     if (!res.ok) {
       throw new Error('City not found')
     }
-    const rawData = await res.json();
-    const data = weatherSchema.parse(rawData);
-    return { data };
+    const { list } = await res.json();
+    // const result: WeatherData[] = [];
+    // for(const data of list) {
+    //   const validData = weatherSchema.parse(data);
+    //   result.push(validData);
+    // }
+    return { data: list };
   } catch (err) {
     if (err instanceof z.ZodError) return { error: "Invalid weather data recived" };
 

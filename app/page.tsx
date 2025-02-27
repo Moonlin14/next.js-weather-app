@@ -30,12 +30,16 @@ export default function Home() {
     setWeather(null);
     const city = formData.get('city') as string;
     const { data, error: weatherError } = await getWheatherData(city);
+    
     if (weatherError) {
       setError(weatherError);
       setWeather(null);  
     }
-    if (data) setWeather(data);
-
+    if (data) {
+      console.log(data);
+      setWeather(data[0]);
+    }
+    
   }
 
   return (
@@ -46,7 +50,7 @@ export default function Home() {
           autoComplete="off"
           name="city"
           type="text"
-          placeholder="Enter city name..."
+          placeholder="Напишите название города..."
           className="bg-blue-400 border border-solid border-transparent focus:border-white duration-500 ease-linear shadow-slate-200"
           required
           />   
@@ -74,7 +78,7 @@ export default function Home() {
                     <motion.h2 
                     initial={{ scale: 0.5 }}
                     animate={{ scale: 1}}
-                    className="text-2xl font-bold">{weather.name}</motion.h2>
+                    className="text-2xl font-bold">{}</motion.h2>
                     <div className="flex items-center justify-center gap-2 mt-2">
                       <Image
                       src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
@@ -99,22 +103,22 @@ export default function Home() {
                     whileHover={{ scale: 1.05 }}
                     className="text-center">
                       <Thermometer className="w-6 h-6 mx-auto text-red-500"/>
-                      <div className="mt-2 text-sm text-gray-600">Feels like</div>
+                      <div className="mt-2 text-sm text-gray-600">Ощущается как</div>
                       <div className="font-semibold">{Math.round(weather.main.feels_like)}°</div>
                     </motion.div>
                     <motion.div 
                     whileHover={{ scale: 1.05 }}
                     className="text-center">
                       <Droplets className="w-6 h-6 mx-auto text-blue-500"/>
-                      <div className="mt-2 text-sm text-gray-600">Humidity</div>
+                      <div className="mt-2 text-sm text-gray-600">Влажность</div>
                       <div className="font-semibold">{Math.round(weather.main.humidity)}%</div>
                     </motion.div>
                     <motion.div 
                     whileHover={{ scale: 1.05 }}
                     className="text-center">
                       <Wind className="w-6 h-6 mx-auto text-teal-500"/>
-                      <div className="mt-2 text-sm text-gray-600">Wind</div>
-                      <div className="font-semibold">{Math.round(weather.wind.speed)}m/s</div>
+                      <div className="mt-2 text-sm text-gray-600">Ветер</div>
+                      <div className="font-semibold">{Math.round(weather.wind.speed)}м/с</div>
                     </motion.div>
                   </motion.div>
                 </CardContent>
@@ -125,3 +129,10 @@ export default function Home() {
     </div>
   );
 }
+
+/*
+todo:
+карточки в столбик 
+motion.div layoutId=modal
+добавить дни недели (на первой должно быть "сегодня")
+*/ 
