@@ -1,4 +1,5 @@
 export interface WeatherData {
+  dt: number,
   main: {
     temp: number,
     humidity: number,
@@ -15,4 +16,5 @@ export interface WeatherData {
   city: {
     name: string,
   },
+  dt_txt: string,
 }

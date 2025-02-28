@@ -4,9 +4,6 @@ import { WeatherData } from "@/types/wethear";
 import { z } from "zod";
 
 const weatherSchema = z.object({
-  city: z.object({
-    name: z.string(),
-  }),
   main: z.object({
     temp: z.number(),
     humidity: z.number(),
@@ -22,6 +19,9 @@ const weatherSchema = z.object({
   wind: z.object({
     speed: z.number(),
   }),
+  city: z.object({
+    name: z.string(),
+  }),
 })
 
 export const getWheatherData = async (city: string): Promise<{ data?: WeatherData[], error?: string}> => {
@@ -29,7 +29,7 @@ export const getWheatherData = async (city: string): Promise<{ data?: WeatherDat
     if (!city.trim()) {
       return { error: "City name is required" };
     }
-    const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&cnt=5&lang=ru&units=metric&appid=${process.env.OPENWEATHERMAP_API_KEY}`);
+    const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&lang=ru&units=metric&appid=${process.env.OPENWEATHERMAP_API_KEY}`);
     if (!res.ok) {
       throw new Error('City not found')
     }
