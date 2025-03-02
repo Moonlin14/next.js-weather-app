@@ -66,7 +66,7 @@ export default function Home() {
           name="city"
           type="text"
           placeholder="Напишите название города..."
-          className="bg-blue-400 border-2 border-solid border-transparent focus:border-white duration-500 ease-linear shadow-slate-200 max-w-sm"
+          className="bg-blue-400 border-2 border-solid border-transparent focus:border-white duration-500 ease-linear shadow-slate-200 w-96"
           required
           />   
           <SubmitButton />

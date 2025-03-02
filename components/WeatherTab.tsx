@@ -29,7 +29,7 @@ export const WeatherTab: FC<tabProps> = ({ data, onClick, index, active }) => {
     className="w-38"
     >
       <motion.div whileHover={{ scale: 1.03 }}>
-        <Card className={`bg-white/50 backdrop-blur border-4 border-solid border-transparent ${active === index ? 'border-b-blue-400 rounded-xl' : ''}`}>
+        <Card className={`bg-white/50 backdrop-blur border-4 border-solid border-transparent ${active === index ? 'shadow-white shadow-md' : ''}`}>
           <CardContent className="flex items-center">
             <h3 className="font-bold first-line:uppercase text-sm">{date}</h3>
             <Image 

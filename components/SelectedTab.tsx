@@ -25,7 +25,7 @@ const SelectedTab: FC<itemProps> = ({ data, city }) => {
       exit={{ opacity: 0, y: -20 }}
       transition={{ delay: 0.3 }}
       >
-        <Card className="bg-white/50 backdrop-blur">
+        <Card className="bg-white/50 backdrop-blur w-96">
             <CardContent className="p-6">
               <div className="text-center mb-4">
                 <motion.h2 
