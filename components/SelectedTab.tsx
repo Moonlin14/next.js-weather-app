@@ -4,13 +4,15 @@ import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Thermometer, Droplets, Wind } from "lucide-react";
 import Image from "next/image";
+import { Graph } from "./Graph";
 
 interface itemProps {
-  data: WeatherData,
+  data: WeatherData[],
+  city: string
 }
 
-const SelectedTab: FC<itemProps> = ({ data }) => {
-  const { main, weather, wind } = data;
+const SelectedTab: FC<itemProps> = ({ data, city }) => {
+  const { main, weather, wind } = data[0];
 
   return (
       <motion.div 
@@ -25,18 +27,24 @@ const SelectedTab: FC<itemProps> = ({ data }) => {
                 <motion.h2 
                 initial={{ scale: 0.5 }}
                 animate={{ scale: 1}}
-                className="text-2xl font-bold">{}</motion.h2>
+                className="text-2xl font-bold first-letter:uppercase">{city}</motion.h2>
                 <div className="flex items-center justify-center gap-2 mt-2">
-                  <Image
-                  src={`https://openweathermap.org/img/wn/${weather[0].icon}@2x.png`}
-                  alt={weather[0].description}
-                  width={64}
-                  height={64}
-                  />
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <Image
+                    src={`https://openweathermap.org/img/wn/${weather[0].icon}@2x.png`}
+                    alt={weather[0].description}
+                    width={64}
+                    height={64}
+                    />
+                  </motion.div>
                   <motion.div 
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2}}
+                  transition={{ delay: 0.2 }}
                   className="text-4xl font-bold">{Math.round(main.temp)}°</motion.div>
                 </div>
                 <div className="text-gray-600 mt-1 capitalize">{weather[0].description}</div>
@@ -44,7 +52,7 @@ const SelectedTab: FC<itemProps> = ({ data }) => {
               <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3}}
+              transition={{ delay: 0.3 }}
               className="grid grid-cols-3 gap-4 mt-6">
                 <motion.div 
                 whileHover={{ scale: 1.05 }}
@@ -68,6 +76,7 @@ const SelectedTab: FC<itemProps> = ({ data }) => {
                   <div className="font-semibold">{Math.round(wind.speed)}м/с</div>
                 </motion.div>
               </motion.div>
+              <Graph data={data}/>
             </CardContent>
           </Card>
       </motion.div>

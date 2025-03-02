@@ -8,10 +8,27 @@ import { motion } from "framer-motion";
 import SubmitButton from "@/components/SubmitButton";
 import SelectedTab from "@/components/SelectedTab";
 
+const dataFilter = (data: WeatherData[]): WeatherData[][] => {
+  return data.reduce((acc: WeatherData[][], item, index) => {
+    const currentTime = item.dt_txt.split(' ')[1].split(':')[0];
+    const lastColl = acc.length - 1;
+    if(acc.length === 0) {
+      acc.push([item]);
+      return acc;
+    };
+    if(currentTime === '03') {
+      acc.push([data[index - 1], item]);
+      return acc;
+    };
+    acc[lastColl].push(item);
+    return acc;
+  }, []);
+};
+
 export default function Home() {
-  const [data, setData] = useState<WeatherData[]>([]);
-  const [error, setError] = useState<string | undefined>('')
-  const [selectedTab, setSelectedTab] = useState<WeatherData | null>(null)
+  const [data, setData] = useState<WeatherData[][]>([]);
+  const [error, setError] = useState<string | undefined>('');
+  const [city, setCity] = useState('');
   
   const handleSearch = async (formData: FormData) => {
     setError('');
@@ -24,12 +41,12 @@ export default function Home() {
       setData([]);  
     }
     if (data) {
-      setData(data);
-      setSelectedTab(data[0]);
+      setData(dataFilter(data));
+      setCity(city)
       console.log(data);
     }
     
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-blue-700 p-4 flex items-center justify-center transition-colors">
@@ -54,17 +71,10 @@ export default function Home() {
           className="text-center text-black-300 bg-red-500/30 rounded-md p-2">{error}</motion.div>
         )}
 
-        {selectedTab && (
-          <SelectedTab data={selectedTab}/>
+        { data[0] && (
+          <SelectedTab data={data[0]} city={city}/>
         )} 
       </div>
     </div>
   );
 }
-
-/*
-todo:
-карточки в столбик 
-motion.div layoutId=modal
-добавить дни недели (на первой должно быть "сегодня")
-*/ 
