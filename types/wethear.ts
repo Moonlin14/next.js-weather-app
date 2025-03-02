@@ -1,5 +1,4 @@
 export interface WeatherData {
-  dt: number,
   main: {
     temp: number,
     humidity: number,

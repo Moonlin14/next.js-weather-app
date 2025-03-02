@@ -19,7 +19,6 @@ const weatherSchema = z.object({
   wind: z.object({
     speed: z.number(),
   }),
-  dt: z.number(),
   dt_txt: z.string()
 })
 

@@ -12,8 +12,12 @@ interface itemProps {
 }
 
 const SelectedTab: FC<itemProps> = ({ data, city }) => {
-  const { main, weather, wind } = data[0];
-
+  let { main, weather, wind } = data[0];
+  if (data.length === 9) {
+    main = data[4].main;
+    weather = data[4].weather;
+    wind = data[4].wind;
+  }
   return (
       <motion.div 
       initial={{ opacity: 0, y: 20 }}
