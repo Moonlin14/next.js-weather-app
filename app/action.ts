@@ -19,9 +19,8 @@ const weatherSchema = z.object({
   wind: z.object({
     speed: z.number(),
   }),
-  city: z.object({
-    name: z.string(),
-  }),
+  dt: z.number(),
+  dt_txt: z.string()
 })
 
 export const getWheatherData = async (city: string): Promise<{ data?: WeatherData[], error?: string}> => {
@@ -34,12 +33,12 @@ export const getWheatherData = async (city: string): Promise<{ data?: WeatherDat
       throw new Error('City not found')
     }
     const { list } = await res.json();
-    // const result: WeatherData[] = [];
-    // for(const data of list) {
-    //   const validData = weatherSchema.parse(data);
-    //   result.push(validData);
-    // }
-    return { data: list };
+    const result: WeatherData[] = [];
+    for(const data of list) {
+      const validData = weatherSchema.parse(data);
+      result.push(validData);
+    }
+    return { data: result };
   } catch (err) {
     if (err instanceof z.ZodError) return { error: "Invalid weather data recived" };
 

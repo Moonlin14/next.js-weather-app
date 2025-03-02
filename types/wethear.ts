@@ -13,8 +13,5 @@ export interface WeatherData {
   wind: {
     speed: number,
   },
-  city: {
-    name: string,
-  },
   dt_txt: string,
 }
