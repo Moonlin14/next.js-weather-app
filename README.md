@@ -2,7 +2,7 @@
 
 ### Installation
 ```
-git clone https://github.com/Moonlin14/weather-app.git
+git clone https://github.com/Moonlin14/next.js-weather-app.git
 ```
 
 ```
