@@ -1,4 +1,4 @@
-## This is a Next.js weather app
+## This is the Next.js weather app showing the weather for five days. API from openweathermap.
 
 ### Installation
 ```
